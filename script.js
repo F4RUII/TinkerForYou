@@ -3,7 +3,7 @@ let gridTemplateColumns = 0;
 let materialPlacementTemplate = []; // Contain path in material directory in order
 let traits = {};
 
-const contentElements = [];
+const contents = [];
 
 const table = document.getElementById("table");
 
@@ -24,6 +24,8 @@ async function operate() {
             await AddMaterial(material);
         }
     }
+
+    console.log(contents);
 }
 operate();
 
@@ -50,7 +52,9 @@ async function LoadData()
 async function AddMaterial(material) {
     console.log(`Adding Material : ${material.localizedName}`)
 
-    // Create and style content
+    const contentInfo = {};
+
+    // Create and style content element
     let content = document.createElement('div');
     content.id = 'content';
     content.style.gridTemplateColumns = `repeat(${gridTemplateColumns}, minmax(0, 1fr))`;
@@ -84,12 +88,16 @@ async function AddMaterial(material) {
             const {file: trait, fileName: whatever} = GetFileFromPath(material, pathArray);
             paragraph.title = traits[`${trait.internalName}.json`].description;
         }
+
+        contentInfo[path] = paragraph;
     }
 
     content = table.appendChild(content);
-    contentElements.push(content);
+    contentInfo.element = content;
 
-    await delay(1);
+    contents.push(contentInfo);
+
+    await delay(0);
 }
 
 // Add material headers elements
@@ -286,12 +294,22 @@ async function AddHeaders(object)
 
             let gridElement = document.createElement('p');
             gridElement.textContent = name;
-            console.log(gridElement.grid);
             gridElement.style.gridColumn = `${columnIndex+1} / span ${columnSpan}`;
             gridElement.style.gridRow = `${rowIndex+1} / span ${rowSpan}`;
             
-            headers.appendChild(gridElement);
+            gridElement = headers.appendChild(gridElement);
 
+            if (columnSpan == 1) // Is the base of header
+            {
+                gridElement.addEventListener('click', Sort)
+                function Sort()
+                {
+                    console.log(grid.path);
+                    console.log('Sort!')
+                }
+            }
+
+            // Finish 'materialPlacementTemplate'
             materialPlacementTemplate[columnIndex] = grid.path;
         }
     }
