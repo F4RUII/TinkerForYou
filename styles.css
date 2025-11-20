@@ -1,0 +1,39 @@
+*, *::after, *::before {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+/* Credit to https://www.fontspace.com/minecraft-font-f28180 */
+@font-face {
+  font-family: minecraftFont; /* set name */
+  src: url(MinecraftRegular-Bmg3.otf); /* url of the font */
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+p {
+  font-family: minecraftFont; /* use font */
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0.01rem solid black;
+}
+
+#table {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
