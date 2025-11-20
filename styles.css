@@ -14,9 +14,8 @@
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 p {
@@ -30,8 +29,8 @@ p {
 }
 
 #table {
-  height: 100%;
-  width: 100%;
+  height: auto;
+  width: 900rem;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
