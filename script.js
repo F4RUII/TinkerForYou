@@ -3,6 +3,8 @@ let gridTemplateColumns = 0;
 let materialPlacementTemplate = []; // Contain path in material directory in order
 let traits = {};
 
+const contentElements = [];
+
 const table = document.getElementById("table");
 
 async function operate() {
@@ -84,7 +86,8 @@ async function AddMaterial(material) {
         }
     }
 
-    table.appendChild(content);
+    content = table.appendChild(content);
+    contentElements.push(content);
 
     await delay(1);
 }
