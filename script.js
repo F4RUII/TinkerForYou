@@ -24,6 +24,8 @@ async function operate() {
             await AddMaterial(material);
         }
     }
+
+    console.log(contents);
 }
 operate();
 
@@ -50,7 +52,9 @@ async function LoadData()
 async function AddMaterial(material) {
     console.log(`Adding Material : ${material.localizedName}`)
 
-    // Create and style content
+    const contentInfo = {};
+
+    // Create and style content element
     let content = document.createElement('div');
     content.id = 'content';
     content.style.gridTemplateColumns = `repeat(${gridTemplateColumns}, minmax(0, 1fr))`;
@@ -84,10 +88,14 @@ async function AddMaterial(material) {
             const {file: trait, fileName: whatever} = GetFileFromPath(material, pathArray);
             paragraph.title = traits[`${trait.internalName}.json`].description;
         }
+
+        contentInfo[path] = paragraph;
     }
 
     content = table.appendChild(content);
-    contents.push(content);
+    contentInfo.element = content;
+
+    contents.push(contentInfo);
 
     await delay(0);
 }
