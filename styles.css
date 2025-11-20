@@ -1,0 +1,87 @@
+*, *::after, *::before {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+@font-face {
+  font-family: myFont; /* set name */
+  src: url(MinecraftRegular-Bmg3.otf); /* url of the font */
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  font-family: myFont; /* use font */
+  overflow-x: hidden;
+}
+
+#table {
+  height: auto;
+  width: 900rem;
+  display: flex;
+  flex-direction: column;
+}
+#table p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0.01rem solid black;
+}
+
+#header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 4fr 2fr;
+}
+
+#material {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+  "a"
+  ;
+}
+#core {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a a"
+  "b c d"
+  ;
+}
+#core > p:nth-of-type(1) {
+  grid-area: a;
+}
+#plates {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a a a"
+  "b c d e"
+  ;
+}
+#plates > p:nth-of-type(1) {
+  grid-area: a;
+}
+#trim {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a"
+  "b c"
+  ;
+}
+#trim > p:nth-of-type(1) {
+  grid-area: a;
+}
