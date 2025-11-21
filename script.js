@@ -67,7 +67,7 @@ async function AddMaterial(material) {
     {
         const pathArray = path.split('/');
 
-        let {file, fileName} = GetFileFromPath(material, pathArray);
+        let {file, fileName} = GetFileFromPathArray(material, pathArray);
 
         let paragraph = document.createElement('p');
         paragraph = content.appendChild(paragraph);
@@ -85,7 +85,7 @@ async function AddMaterial(material) {
         )
         {
             pathArray.pop();
-            const {file: trait, fileName: whatever} = GetFileFromPath(material, pathArray);
+            const {file: trait, fileName: whatever} = GetFileFromPathArray(material, pathArray);
             paragraph.title = traits[`${trait.internalName}.json`].description;
         }
 
@@ -314,10 +314,63 @@ async function AddHeaders(object)
 
 function Sort(path)
 {
+    contents.sort((contentA, contentB) => {
+        const paragraphA = contentA[path];
+        const paragraphB = contentB[path];
+
+        console.log(paragraphA);
+        console.log(paragraphB);
+
+        if (paragraphA) // If A found
+        {
+            if (paragraphB) // If B found
+            {
+                const valueA = parseFloat(paragraphA.textContent);
+                const valueB = parseFloat(paragraphB.textContent);
+
+                console.log(valueA);
+                console.log(valueB);
+                
+                if (valueA > valueB)
+                {
+                    return -1;
+                }
+                else if (valueA == valueB)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else // If B not found
+            {
+                return -1;
+            }
+        }
+        else // If A not found
+        {
+            return 1;
+        }
+    })
+    console.log(contents);
     console.log(path);
     console.log('Sort!');
+
+    UpdateContent();
 }
 
+
+function UpdateContent()
+{
+    for (const content of contents)
+    {
+        console.log(content);
+
+        table.appendChild(content.element);
+    }
+}
 
 /////////////
 // UTILITY //
@@ -325,7 +378,14 @@ function Sort(path)
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-function GetFileFromPath(folder, pathArray)
+
+function GetFileFromPath(folder, path)
+{
+    const pathArray = path.split('\/');
+    return GetFileFromPathArray(folder, pathArray);
+}
+
+function GetFileFromPathArray(folder, pathArray)
 {
     let file = folder;
     let fileName;
@@ -333,9 +393,7 @@ function GetFileFromPath(folder, pathArray)
         if (!file) return;
         file = file[value];
         fileName = value;
-        console.log(file, fileName);
     })
-    console.log(file, fileName);
     
     return {file, fileName};
 }
