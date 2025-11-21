@@ -301,12 +301,7 @@ async function AddHeaders(object)
 
             if (columnSpan == 1) // Is the base of header
             {
-                gridElement.addEventListener('click', Sort)
-                function Sort()
-                {
-                    console.log(grid.path);
-                    console.log('Sort!')
-                }
+                gridElement.addEventListener('click', function (e) {Sort(grid.path)});
             }
 
             // Finish 'materialPlacementTemplate'
@@ -315,6 +310,12 @@ async function AddHeaders(object)
     }
 
     console.log(materialPlacementTemplate);
+}
+
+function Sort(path)
+{
+    console.log(path);
+    console.log('Sort!');
 }
 
 
