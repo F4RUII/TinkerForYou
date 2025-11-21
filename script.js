@@ -3,6 +3,8 @@ let gridTemplateColumns = 0;
 let materialPlacementTemplate = []; // Contain path in material directory in order
 let traits = {};
 
+const contents = [];
+
 const table = document.getElementById("table");
 
 async function operate() {
@@ -22,6 +24,8 @@ async function operate() {
             await AddMaterial(material);
         }
     }
+
+    console.log(contents);
 }
 operate();
 
@@ -48,7 +52,9 @@ async function LoadData()
 async function AddMaterial(material) {
     console.log(`Adding Material : ${material.localizedName}`)
 
-    // Create and style content
+    const contentInfo = {};
+
+    // Create and style content element
     let content = document.createElement('div');
     content.id = 'content';
     content.style.gridTemplateColumns = `repeat(${gridTemplateColumns}, minmax(0, 1fr))`;
@@ -61,7 +67,7 @@ async function AddMaterial(material) {
     {
         const pathArray = path.split('/');
 
-        let {file, fileName} = GetFileFromPath(material, pathArray);
+        let {file, fileName} = GetFileFromPathArray(material, pathArray);
 
         let paragraph = document.createElement('p');
         paragraph = content.appendChild(paragraph);
@@ -79,14 +85,19 @@ async function AddMaterial(material) {
         )
         {
             pathArray.pop();
-            const {file: trait, fileName: whatever} = GetFileFromPath(material, pathArray);
+            const {file: trait, fileName: whatever} = GetFileFromPathArray(material, pathArray);
             paragraph.title = traits[`${trait.internalName}.json`].description;
         }
+
+        contentInfo[path] = paragraph;
     }
 
-    table.appendChild(content);
+    content = table.appendChild(content);
+    contentInfo.element = content;
 
-    await delay(1);
+    contents.push(contentInfo);
+
+    await delay(0);
 }
 
 // Add material headers elements
@@ -283,12 +294,17 @@ async function AddHeaders(object)
 
             let gridElement = document.createElement('p');
             gridElement.textContent = name;
-            console.log(gridElement.grid);
             gridElement.style.gridColumn = `${columnIndex+1} / span ${columnSpan}`;
             gridElement.style.gridRow = `${rowIndex+1} / span ${rowSpan}`;
             
-            headers.appendChild(gridElement);
+            gridElement = headers.appendChild(gridElement);
 
+            if (columnSpan == 1) // Is the base of header
+            {
+                gridElement.addEventListener('click', function (e) {Sort(grid.path)});
+            }
+
+            // Finish 'materialPlacementTemplate'
             materialPlacementTemplate[columnIndex] = grid.path;
         }
     }
@@ -296,6 +312,65 @@ async function AddHeaders(object)
     console.log(materialPlacementTemplate);
 }
 
+function Sort(path)
+{
+    contents.sort((contentA, contentB) => {
+        const paragraphA = contentA[path];
+        const paragraphB = contentB[path];
+
+        console.log(paragraphA);
+        console.log(paragraphB);
+
+        if (paragraphA) // If A found
+        {
+            if (paragraphB) // If B found
+            {
+                const valueA = parseFloat(paragraphA.textContent);
+                const valueB = parseFloat(paragraphB.textContent);
+
+                console.log(valueA);
+                console.log(valueB);
+                
+                if (valueA > valueB)
+                {
+                    return -1;
+                }
+                else if (valueA == valueB)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else // If B not found
+            {
+                return -1;
+            }
+        }
+        else // If A not found
+        {
+            return 1;
+        }
+    })
+    console.log(contents);
+    console.log(path);
+    console.log('Sort!');
+
+    UpdateContent();
+}
+
+
+function UpdateContent()
+{
+    for (const content of contents)
+    {
+        console.log(content);
+
+        table.appendChild(content.element);
+    }
+}
 
 /////////////
 // UTILITY //
@@ -303,7 +378,14 @@ async function AddHeaders(object)
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-function GetFileFromPath(folder, pathArray)
+
+function GetFileFromPath(folder, path)
+{
+    const pathArray = path.split('\/');
+    return GetFileFromPathArray(folder, pathArray);
+}
+
+function GetFileFromPathArray(folder, pathArray)
 {
     let file = folder;
     let fileName;
@@ -311,9 +393,7 @@ function GetFileFromPath(folder, pathArray)
         if (!file) return;
         file = file[value];
         fileName = value;
-        console.log(file, fileName);
     })
-    console.log(file, fileName);
     
     return {file, fileName};
 }
