@@ -329,20 +329,45 @@ function Sort(grid)
         {
             if (paragraphB) // If B found
             {
-                const valueA = parseFloat(paragraphA.textContent);
-                const valueB = parseFloat(paragraphB.textContent);
+                const textContentA = paragraphA.textContent;
+                const textContentB = paragraphB.textContent;
+
+                const valueA = parseFloat(textContentA);
+                const valueB = parseFloat(textContentB);
                 
-                if (valueA > valueB)
+                console.log(valueA)
+                console.log(valueA == NaN)
+                console.log(valueA === NaN)
+                if (isNaN(valueA)) // Sort alphabetically
                 {
-                    return -1 * direction;
-                }
-                else if (valueA == valueB)
-                {
-                    return 0;
+                    console.log('Cookie')
+                    if (textContentA < textContentB)
+                    {
+                        return -1 * direction;
+                    }
+                    else if (textContentA > textContentB)
+                    {
+                        return 1 * direction;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
                 else
                 {
-                    return 1 * direction;
+                    if (valueA > valueB)
+                    {
+                        return -1 * direction;
+                    }
+                    else if (valueA < valueB)
+                    {
+                        return 1 * direction;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 }
             }
             else // If B not found
