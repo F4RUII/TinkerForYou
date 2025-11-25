@@ -301,7 +301,9 @@ async function AddHeaders(object)
 
             if (columnSpan == 1) // Is the base of header
             {
-                gridElement.addEventListener('click', function (e) {Sort(grid.path)});
+                grid.direction = 1;
+                gridElement.addEventListener('click', function (e) {Sort(grid)});
+
             }
 
             // Finish 'materialPlacementTemplate'
@@ -312,14 +314,16 @@ async function AddHeaders(object)
     console.log(materialPlacementTemplate);
 }
 
-function Sort(path)
+function Sort(grid)
 {
+    const path = grid.path;
+    const direction = grid.direction;
+    console.log(path);
+    console.log(direction);
+
     contents.sort((contentA, contentB) => {
         const paragraphA = contentA[path];
         const paragraphB = contentB[path];
-
-        console.log(paragraphA);
-        console.log(paragraphB);
 
         if (paragraphA) // If A found
         {
@@ -327,13 +331,10 @@ function Sort(path)
             {
                 const valueA = parseFloat(paragraphA.textContent);
                 const valueB = parseFloat(paragraphB.textContent);
-
-                console.log(valueA);
-                console.log(valueB);
                 
                 if (valueA > valueB)
                 {
-                    return -1;
+                    return -1 * direction;
                 }
                 else if (valueA == valueB)
                 {
@@ -341,7 +342,7 @@ function Sort(path)
                 }
                 else
                 {
-                    return 1;
+                    return 1 * direction;
                 }
             }
             else // If B not found
@@ -354,9 +355,9 @@ function Sort(path)
             return 1;
         }
     })
-    console.log(contents);
-    console.log(path);
     console.log('Sort!');
+
+    grid.direction *= -1;
 
     UpdateContent();
 }
@@ -366,8 +367,6 @@ function UpdateContent()
 {
     for (const content of contents)
     {
-        console.log(content);
-
         table.appendChild(content.element);
     }
 }
