@@ -7,6 +7,7 @@
   font-size: 62.5%;
 }
 
+<<<<<<< HEAD
 /* Credit to https://www.fontspace.com/minecraft-font-f28180 */
 @font-face {
   font-family: minecraftFont; /* set name */
@@ -14,11 +15,20 @@
 }
 
 body {
+=======
+@font-face {
+  font-family: myFont; /* set name */
+  src: url(MinecraftRegular-Bmg3.otf); /* url of the font */
+}
+
+html {
+>>>>>>> 8e40076374fe32d9f85b16366a21baa21dc0eb2b
   height: 100%;
   width: 100%;
 }
 
 p {
+<<<<<<< HEAD
   font-family: minecraftFont; /* use font */
   overflow-x: hidden;
   display: flex;
@@ -26,6 +36,10 @@ p {
   justify-content: center;
   text-align: center;
   border: 0.01rem solid black;
+=======
+  font-family: myFont; /* use font */
+  overflow-x: hidden;
+>>>>>>> 8e40076374fe32d9f85b16366a21baa21dc0eb2b
 }
 
 #table {
@@ -33,6 +47,66 @@ p {
   width: 900rem;
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
   overflow-y: scroll;
   overflow-x: scroll;
+=======
+}
+#table p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0.01rem solid black;
+}
+
+#header {
+    display: grid;
+    grid-template-columns: 1fr 3fr 4fr 2fr;
+}
+
+#material {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+  "a"
+  ;
+}
+#core {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a a"
+  "b c d"
+  ;
+}
+#core > p:nth-of-type(1) {
+  grid-area: a;
+}
+#plates {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a a a"
+  "b c d e"
+  ;
+}
+#plates > p:nth-of-type(1) {
+  grid-area: a;
+}
+#trim {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "a a"
+  "b c"
+  ;
+}
+#trim > p:nth-of-type(1) {
+  grid-area: a;
+>>>>>>> 8e40076374fe32d9f85b16366a21baa21dc0eb2b
 }
