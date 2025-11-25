@@ -13,7 +13,7 @@
   src: url(MinecraftRegular-Bmg3.otf); /* url of the font */
 }
 
-body {
+html {
   height: 100%;
   width: 100%;
 }
